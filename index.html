@@ -1,0 +1,1704 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Little Birthday Surprise 🎂</title>
+
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    overflow-x: hidden;
+    background: #050714;
+}
+
+
+/* =========================
+   SHANGHAI BACKGROUND
+========================= */
+
+.city {
+    position: fixed;
+    inset: -5%;
+    z-index: -5;
+
+    background-image:
+        linear-gradient(
+            rgba(3, 5, 20, 0.25),
+            rgba(3, 5, 20, 0.72)
+        ),
+        url("https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?auto=format&fit=crop&w=2400&q=90");
+
+    background-size: cover;
+    background-position: center;
+
+    animation: cityMove 18s ease-in-out infinite alternate;
+}
+
+@keyframes cityMove {
+
+    0% {
+        transform: scale(1.05);
+        background-position: 45% center;
+    }
+
+    100% {
+        transform: scale(1.12);
+        background-position: 55% center;
+    }
+}
+
+
+/* =========================
+   DARK OVERLAY
+========================= */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(255, 70, 170, 0.20),
+            transparent 40%
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(0,0,20,0.05),
+            rgba(0,0,0,0.8)
+        );
+}
+
+
+/* =========================
+   FLOATING LIGHTS
+========================= */
+
+.lights {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.light {
+    position: absolute;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 20px #ff7fc8;
+
+    animation: lightFloat linear infinite;
+}
+
+@keyframes lightFloat {
+
+    from {
+        transform:
+            translateY(110vh)
+            scale(0.3);
+
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    to {
+        transform:
+            translateY(-10vh)
+            scale(1);
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+}
+
+
+/* =========================
+   GAME CARD
+========================= */
+
+.card {
+
+    width: min(92%, 650px);
+
+    padding: 45px 35px;
+
+    text-align: center;
+
+    background:
+        rgba(15, 10, 35, 0.65);
+
+    backdrop-filter: blur(18px);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.18);
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,0.55);
+
+    animation: cardFloat 5s ease-in-out infinite;
+
+}
+
+@keyframes cardFloat {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+}
+
+
+/* =========================
+   TEXT
+========================= */
+
+.subtitle {
+
+    font-size: 13px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    color: #ffd2eb;
+
+    margin-bottom: 18px;
+
+}
+
+h1 {
+
+    font-size:
+        clamp(42px, 8vw, 70px);
+
+    line-height: 1;
+
+    margin-bottom: 15px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ff9ed4,
+            #fff
+        );
+
+    background-size: 250%;
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+
+    animation:
+        gradient 4s linear infinite;
+
+}
+
+@keyframes gradient {
+
+    to {
+        background-position:
+            250% center;
+    }
+
+}
+
+
+.name {
+
+    font-size:
+        clamp(30px, 6vw, 48px);
+
+    font-weight: bold;
+
+    color: #ffb8df;
+
+    margin-bottom: 20px;
+
+    text-shadow:
+        0 0 20px
+        rgba(255,100,190,0.7);
+
+}
+
+
+/* =========================
+   GAME SCREENS
+========================= */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+
+    animation:
+        screenIn 0.5s ease;
+}
+
+@keyframes screenIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro-text {
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    color:
+        rgba(255,255,255,0.85);
+
+    margin:
+        20px auto 30px;
+
+    max-width: 500px;
+
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button {
+
+    border: none;
+
+    padding:
+        14px 30px;
+
+    min-height: 48px;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff4f9a,
+            #a855f7
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px
+        rgba(255,60,160,0.35);
+
+    transition:
+        0.25s ease;
+
+}
+
+button:hover {
+
+    transform:
+        translateY(-3px)
+        scale(1.03);
+
+    box-shadow:
+        0 15px 40px
+        rgba(255,60,160,0.55);
+
+}
+
+button:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-area {
+
+    margin-bottom: 25px;
+
+}
+
+.progress-text {
+
+    font-size: 13px;
+
+    color:
+        rgba(255,255,255,0.7);
+
+    margin-bottom: 8px;
+
+}
+
+.progress {
+
+    width: 100%;
+
+    height: 8px;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+}
+
+.progress-bar {
+
+    height: 100%;
+
+    width: 20%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff4f9a,
+            #a855f7
+        );
+
+    border-radius: 20px;
+
+    transition:
+        width 0.4s ease;
+
+}
+
+
+/* =========================
+   QUESTION
+========================= */
+
+.question {
+
+    font-size:
+        clamp(22px, 5vw, 30px);
+
+    line-height: 1.4;
+
+    margin:
+        15px auto 25px;
+
+    max-width: 550px;
+
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+.options {
+
+    display: grid;
+
+    gap: 12px;
+
+    max-width: 500px;
+
+    margin:
+        0 auto 20px;
+
+}
+
+.option {
+
+    width: 100%;
+
+    padding: 16px;
+
+    min-height: 52px;
+
+    border-radius: 15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.15);
+
+    background:
+        rgba(255,255,255,0.07);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        0.25s ease;
+
+    text-align: left;
+
+    font-size: 15px;
+
+}
+
+.option:hover {
+
+    background:
+        rgba(255,100,190,0.18);
+
+    border-color:
+        rgba(255,140,210,0.5);
+
+    transform:
+        translateX(4px);
+
+}
+
+.option.correct {
+
+    background:
+        rgba(60,200,130,0.25);
+
+    border-color:
+        #65e6a1;
+
+}
+
+.option.wrong {
+
+    background:
+        rgba(255,60,90,0.25);
+
+    border-color:
+        #ff6b7d;
+
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback {
+
+    min-height: 28px;
+
+    font-size: 15px;
+
+    margin: 10px 0 20px;
+
+    color: #ffd1eb;
+
+}
+
+
+/* =========================
+   FINAL UNLOCK
+========================= */
+
+.lock {
+
+    font-size: 65px;
+
+    margin: 10px;
+
+    animation:
+        lockBounce 1.5s infinite;
+
+}
+
+@keyframes lockBounce {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+}
+
+
+/* =========================
+   BIRTHDAY REVEAL
+========================= */
+
+.birthday-title {
+
+    font-size:
+        clamp(42px, 8vw, 70px);
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #ff87c9,
+            #fff,
+            #ffcae9
+        );
+
+    background-size: 300%;
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    color: transparent;
+
+    animation:
+        gradient 3s linear infinite;
+
+}
+
+.cake {
+
+    font-size: 80px;
+
+    margin:
+        15px 0;
+
+    animation:
+        cakeBounce 1s ease infinite;
+
+}
+
+@keyframes cakeBounce {
+
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+}
+
+
+/* =========================
+   LETTER
+========================= */
+
+.letter {
+
+    font-size: 16px;
+
+    line-height: 1.9;
+
+    max-width: 520px;
+
+    margin:
+        20px auto 25px;
+
+    color:
+        rgba(255,255,255,0.9);
+
+}
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+.confetti {
+
+    position: fixed;
+
+    top: -20px;
+
+    width: 10px;
+
+    height: 16px;
+
+    z-index: 100;
+
+    pointer-events: none;
+
+    animation:
+        fall linear forwards;
+
+}
+
+@keyframes fall {
+
+    to {
+
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+
+    }
+
+}
+
+
+/* =========================
+   FIREWORK
+========================= */
+
+.firework {
+
+    position: fixed;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    z-index: 90;
+
+    pointer-events: none;
+
+    animation:
+        explode 1.2s ease-out forwards;
+
+}
+
+@keyframes explode {
+
+    0% {
+
+        box-shadow:
+            0 0 white;
+
+        opacity: 1;
+
+    }
+
+    100% {
+
+        box-shadow:
+            0 -100px #ff4f9a,
+            70px -70px #ffd166,
+            100px 0 #a855f7,
+            70px 70px #60a5fa,
+            0 100px #ff6b6b,
+            -70px 70px #ff8bd8,
+            -100px 0 #fff,
+            -70px -70px #ffd166;
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    .card {
+
+        padding:
+            35px 20px;
+
+    }
+
+    .intro-text {
+
+        font-size: 15px;
+
+    }
+
+    .question {
+
+        font-size: 21px;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     BACKGROUND
+========================= -->
+
+<div class="city"></div>
+
+<div class="overlay"></div>
+
+<div class="lights" id="lights"></div>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+<div class="card">
+
+
+<!-- =========================
+     SCREEN 1
+========================= -->
+
+<section
+    class="screen active"
+    id="startScreen"
+>
+
+    <div class="subtitle">
+        Shanghai • Midnight • A Secret
+    </div>
+
+    <h1>
+        Hey! 👀
+    </h1>
+
+    <div class="name">
+        I have a little surprise...
+    </div>
+
+    <p class="intro-text">
+
+        But unfortunately,
+        you can't get your birthday
+        surprise that easily. 😌
+
+        <br><br>
+
+        You'll have to complete
+        a little challenge first.
+
+        <br><br>
+
+        Don't worry...
+
+        <br>
+
+        It's not THAT difficult. 😂
+
+    </p>
+
+    <button onclick="startGame()">
+        🎮 Start the Game
+    </button>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 2
+========================= -->
+
+<section
+    class="screen"
+    id="gameScreen"
+>
+
+    <div class="progress-area">
+
+        <div
+            class="progress-text"
+            id="progressText"
+        >
+            Question 1 of 6
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="progressBar"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="question"
+        id="question"
+    >
+    </div>
+
+
+    <div
+        class="options"
+        id="options"
+    >
+    </div>
+
+
+    <div
+        class="feedback"
+        id="feedback"
+    >
+    </div>
+
+
+    <button
+        id="nextButton"
+        onclick="nextQuestion()"
+        style="display:none;"
+    >
+        Next →
+    </button>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 3
+========================= -->
+
+<section
+    class="screen"
+    id="unlockScreen"
+>
+
+    <div class="lock">
+        🔐
+    </div>
+
+    <h1>
+        You did it!
+    </h1>
+
+    <p class="intro-text">
+
+        Okay...
+
+        <br><br>
+
+        I guess you've earned
+        your birthday surprise. 😌
+
+        <br><br>
+
+        But there's one final button...
+
+    </p>
+
+    <button onclick="revealBirthday()">
+        🎁 Unlock My Surprise
+    </button>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 4
+========================= -->
+
+<section
+    class="screen"
+    id="birthdayScreen"
+>
+
+    <div class="cake">
+        🎂
+    </div>
+
+    <div class="birthday-title">
+        HAPPY BIRTHDAY!
+    </div>
+
+    <!-- CHANGE HER NAME -->
+
+    <div class="name">
+        IZEL - (IZUU) 🤍
+    </div>
+
+    <p class="intro-text">
+
+        You officially survived
+        the birthday challenge. 😂
+
+        <br><br>
+
+        And now...
+
+        <br>
+
+        this part is actually
+        meant for you.
+
+    </p>
+
+    <button onclick="showLetter()">
+        🤍 Open Your Message
+    </button>
+
+</section>
+
+
+<!-- =========================
+     SCREEN 5
+========================= -->
+
+<section
+    class="screen"
+    id="letterScreen"
+>
+
+    <div class="cake">
+          IZEL 🤍
+    </div>
+
+    <div class="birthday-title">
+        For You
+    </div>
+
+
+    <!-- CHANGE THIS MESSAGE -->
+
+    <p class="letter">
+
+        Happy Birthday! 🎂✨
+
+        <br><br>
+
+        I hope this new year of your life
+        brings you a lot of happiness,
+        amazing memories and countless
+        reasons to smile.
+
+        <br><br>
+
+        Keep being the person you are,
+        keep laughing, keep dreaming
+        and keep doing the things that
+        make you happy.
+
+        <br><br>
+
+        I hope today is just the beginning
+        of a really beautiful year for you.
+
+        <br><br>
+
+        Once again...
+
+        <br><br>
+
+        <strong>
+            Happy Birthday! 🤍
+        </strong>
+
+    </p>
+
+</section>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+
+/* =========================================
+   QUESTIONS
+=========================================
+
+   CHANGE THESE QUESTIONS AND ANSWERS.
+
+   correct = answer number
+   0 = first option
+   1 = second option
+   2 = third option
+   3 = fourth option
+
+========================================= */
+
+const questions = [
+
+    {
+        question:
+            "If we suddenly got a free flight to anywhere, where would we probably go first? ✈️",
+
+        options: [
+            "China CN",
+            "Paris 🇫🇷",
+            "Dubai 🇦🇪",
+            "Somewhere completely random 😂"
+        ],
+
+        correct: 0,
+
+        correctMessage:
+            "Okayyy... you actually know us pretty well 😂",
+
+        wrongMessage:
+            "Hmmmm... I'm not sure about that one 👀"
+    },
+
+
+    {
+        question:
+            "Who is more likely to say 'I don't know'? 😂",
+
+        options: [
+            "Rahul 😌",
+            "Izel 👀",
+            "Both of us 😂",
+            "Neither of us "
+        ],
+
+        correct: 1,
+
+        correctMessage:
+            "You know the truth 😂",
+
+        wrongMessage:
+            "Nice try... but we both know the answer 😭"
+    },
+
+
+    {
+        question:
+            "Where did we first meet?",
+
+        options: [
+            "Instagram",
+            "WhatsApp",
+            "Hello Talk",
+            "None of the above 😌"
+        ],
+
+        correct: 2,
+
+        correctMessage:
+            "Nice this time you remembered 😂",
+
+        wrongMessage:
+            "I didn't expect this 😌"
+    },
+
+
+    {
+        question:
+            "What do you think who is more beautiful?",
+
+        options: [
+            "Rahul",
+            "Izel",
+            "Both of us",
+            "Neither of us"
+        ],
+
+        correct: 1,
+
+        correctMessage:
+            "Finally You Accepted ❤️",
+
+        wrongMessage:
+            "Hmm... we need to discuss this answer 👀"
+    },
+
+    {
+        question:
+            "Who is your best friend?",
+
+        options: [
+            "Mary",
+            "Rahul",
+            "Both of us",
+            "None of the above"
+        ],
+
+        correct: 1,
+
+        correctMessage:
+            "Okay Mmmm 😂",
+
+        wrongMessage:
+            "Hmm... we need to discuss this answer 👀"
+    },
+
+
+    {
+        question:
+            "Final question...Who looks like a Zhou Lusi?",
+ 
+
+        options: [
+            "Razia",
+            "Izel",
+            "Mary",
+            "None of the Above"
+        ],
+
+        correct: 1,
+
+        correctMessage:
+            "FINALLY! You got the most important answer ❤️",
+
+        wrongMessage:
+            "BRO... SERIOUSLY? 😂 Try again."
+    }
+
+];
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let currentQuestion = 0;
+
+
+/* =========================================
+   START GAME
+========================================= */
+
+function startGame() {
+
+    document
+        .getElementById("startScreen")
+        .classList.remove("active");
+
+    document
+        .getElementById("gameScreen")
+        .classList.add("active");
+
+    loadQuestion();
+
+}
+
+
+/* =========================================
+   LOAD QUESTION
+========================================= */
+
+function loadQuestion() {
+
+    const q =
+        questions[currentQuestion];
+
+    document
+        .getElementById("question")
+        .textContent =
+        q.question;
+
+
+    document
+        .getElementById("progressText")
+        .textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+
+    document
+        .getElementById("progressBar")
+        .style.width =
+        `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+
+    const optionsContainer =
+        document.getElementById("options");
+
+    optionsContainer.innerHTML = "";
+
+
+    document
+        .getElementById("feedback")
+        .textContent = "";
+
+
+    document
+        .getElementById("nextButton")
+        .style.display = "none";
+
+
+    q.options.forEach(
+        (option, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "option";
+
+            button.textContent =
+                option;
+
+            button.onclick =
+                () => selectAnswer(index, button);
+
+            optionsContainer.appendChild(button);
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   ANSWER
+========================================= */
+
+function selectAnswer(
+    selected,
+    clickedButton
+) {
+
+    const q =
+        questions[currentQuestion];
+
+    const buttons =
+        document.querySelectorAll(".option");
+
+
+    /* Prevent multiple answers */
+
+    buttons.forEach(
+        button => {
+            button.disabled = true;
+        }
+    );
+
+
+    if (selected === q.correct) {
+
+        clickedButton
+            .classList
+            .add("correct");
+
+        document
+            .getElementById("feedback")
+            .textContent =
+            "✅ " + q.correctMessage;
+
+        createMiniConfetti();
+
+    }
+
+    else {
+
+        clickedButton
+            .classList
+            .add("wrong");
+
+        /*
+        Show the correct answer
+        but keep it playful.
+        */
+
+        buttons[q.correct]
+            .classList
+            .add("correct");
+
+        document
+            .getElementById("feedback")
+            .textContent =
+            "😂 " + q.wrongMessage;
+
+    }
+
+
+    document
+        .getElementById("nextButton")
+        .style.display =
+        "inline-block";
+
+}
+
+
+/* =========================================
+   NEXT QUESTION
+========================================= */
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (
+        currentQuestion >=
+        questions.length
+    ) {
+
+        document
+            .getElementById("gameScreen")
+            .classList.remove("active");
+
+        document
+            .getElementById("unlockScreen")
+            .classList.add("active");
+
+        return;
+    }
+
+
+    loadQuestion();
+
+}
+
+
+/* =========================================
+   FINAL BIRTHDAY REVEAL
+========================================= */
+
+function revealBirthday() {
+
+    document
+        .getElementById("unlockScreen")
+        .classList.remove("active");
+
+    document
+        .getElementById("birthdayScreen")
+        .classList.add("active");
+
+
+    createConfetti();
+
+    createFireworks();
+
+}
+
+
+/* =========================================
+   LETTER
+========================================= */
+
+function showLetter() {
+
+    document
+        .getElementById("birthdayScreen")
+        .classList.remove("active");
+
+    document
+        .getElementById("letterScreen")
+        .classList.add("active");
+
+
+    createConfetti();
+
+    createFireworks();
+
+}
+
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+function createConfetti() {
+
+    const colors = [
+
+        "#ff4f9a",
+        "#ffd166",
+        "#a855f7",
+        "#60a5fa",
+        "#ffffff",
+        "#ff6b6b"
+
+    ];
+
+
+    for (
+        let i = 0;
+        i < 180;
+        i++
+    ) {
+
+        const piece =
+            document.createElement("div");
+
+        piece.className =
+            "confetti";
+
+
+        piece.style.left =
+            Math.random() * 100 + "vw";
+
+
+        piece.style.background =
+            colors[
+                Math.floor(
+                    Math.random() *
+                    colors.length
+                )
+            ];
+
+
+        piece.style.animationDuration =
+            (2 + Math.random() * 4) + "s";
+
+
+        piece.style.animationDelay =
+            Math.random() + "s";
+
+
+        document.body
+            .appendChild(piece);
+
+
+        setTimeout(
+            () => piece.remove(),
+            6500
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   MINI CONFETTI
+========================================= */
+
+function createMiniConfetti() {
+
+    for (
+        let i = 0;
+        i < 30;
+        i++
+    ) {
+
+        const piece =
+            document.createElement("div");
+
+        piece.className =
+            "confetti";
+
+
+        piece.style.left =
+            (35 + Math.random() * 30) + "vw";
+
+
+        piece.style.background =
+            "#ff9ed4";
+
+
+        piece.style.animationDuration =
+            "2s";
+
+
+        document.body
+            .appendChild(piece);
+
+
+        setTimeout(
+            () => piece.remove(),
+            2500
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   FIREWORKS
+========================================= */
+
+function createFireworks() {
+
+    for (
+        let i = 0;
+        i < 12;
+        i++
+    ) {
+
+        setTimeout(
+            () => {
+
+                const firework =
+                    document.createElement("div");
+
+                firework.className =
+                    "firework";
+
+
+                firework.style.left =
+                    (15 + Math.random() * 70) + "vw";
+
+
+                firework.style.top =
+                    (10 + Math.random() * 55) + "vh";
+
+
+                document.body
+                    .appendChild(firework);
+
+
+                setTimeout(
+                    () =>
+                        firework.remove(),
+                    1300
+                );
+
+            },
+
+            i * 350
+
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   BACKGROUND LIGHTS
+========================================= */
+
+const lights =
+    document.getElementById("lights");
+
+
+function createLight() {
+
+    const light =
+        document.createElement("div");
+
+    light.className =
+        "light";
+
+
+    const size =
+        2 + Math.random() * 4;
+
+
+    light.style.width =
+        size + "px";
+
+
+    light.style.height =
+        size + "px";
+
+
+    light.style.left =
+        Math.random() * 100 + "%";
+
+
+    light.style.animationDuration =
+        (5 + Math.random() * 8) + "s";
+
+
+    light.style.animationDelay =
+        Math.random() * 5 + "s";
+
+
+    lights.appendChild(light);
+
+
+    setTimeout(
+        () => light.remove(),
+        14000
+    );
+
+}
+
+
+setInterval(
+    createLight,
+    250
+);
+
+
+for (
+    let i = 0;
+    i < 30;
+    i++
+) {
+
+    createLight();
+
+}
+
+</script>
+
+</body>
+</html>
+```
